@@ -1,0 +1,15 @@
+.single-member-conteiner{
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.single-member-info{
+    flex: 1;
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    color: var(--textSoft);
+    height: max-content;
+}
