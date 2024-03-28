@@ -1,7 +1,7 @@
 const Corona=require("../models/Corona")
 
 const Add_corona_details =async(req,res)=>{
-    const {memberId,vaccines,positive_result}=req.body
+    const {memberId,vaccines,positive_result,recovery}=req.body
     if(!memberId){
         return res.status(400).json({
             error: true,

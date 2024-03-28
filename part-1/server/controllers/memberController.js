@@ -1,4 +1,5 @@
 const Member = require("../models/Member")
+const Corona = require("../models/Corona")
 
 const getAllMembers = async (req, res) => {
     const members = await Member.find().lean()
@@ -10,10 +11,17 @@ const getAllMembers = async (req, res) => {
             data: null
         })
     }
+
+    const membersWithCoronaDetails=await Promise.all(members.map(async (member)=>{
+        const coronaDetails= await Corona.findOne({member:member._id}).select(["vaccines", "positive_result","recovery"]).lean()
+        return {...member,coronaDetails}
+    }))    
+console.log(membersWithCoronaDetails);
+    
     res.json({
         error: false,
         message: "",
-        data: members
+        data: membersWithCoronaDetails
     })
 }
 const getMember = async (req, res) => {

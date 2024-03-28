@@ -62,12 +62,12 @@ const MembersList = () => {
                         <td>
                             {member.id}
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td>{member.coronaDetails?.positive_result?.toString().slice(0,10)}</td>
+                        <td>{member.coronaDetails?.recovery?.toString().slice(0,10)}</td>
                         <td></td>
                         <td className="members-list-buttons">
                             <Link to={`members/${member._id}`} className="members-list-button members-list-view">Details</Link>
-                            <button onClick={deleteFunc(member)} className="members-list-button members-list-delete">Delete</button>
+                            <button onClick={()=>deleteFunc(member)} className="members-list-button members-list-delete">Delete</button>
                         </td>
                     </tr>
                 ))}
