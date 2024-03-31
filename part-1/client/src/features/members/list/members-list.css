@@ -53,6 +53,9 @@
 .members-list-delete{
     background-color: crimson;
 }
+.members-list-edit{
+    background-color: chocolate;
+}
 .member-image{
     border-radius: 50%;
     object-fit: cover;

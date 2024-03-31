@@ -16,7 +16,7 @@ const getAllMembers = async (req, res) => {
         const coronaDetails= await Corona.findOne({member:member._id}).select(["vaccines", "positive_result","recovery"]).lean()
         return {...member,coronaDetails}
     }))    
-console.log(membersWithCoronaDetails);
+// console.log(membersWithCoronaDetails);
     
     res.json({
         error: false,
@@ -28,7 +28,7 @@ const getMember = async (req, res) => {
 
 }
 const addMember = async (req, res) => {
-    const image = (req.file?.filename? req.file.filename: "")
+    const image = (req.file?(req.file.filename? req.file.filename: ""):"")
     const { firstName, lastName, id, city, street, numB, birthDate, phone, mobile } = req.body
     // console.log(req.file)
     if (!firstName || !lastName || !id || !birthDate) {
@@ -93,7 +93,7 @@ const updateMember = async (req, res) => {
     })
 }
 const deleteMember = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { _id } = req.body
     // console.log(_id);
     if (!_id) {

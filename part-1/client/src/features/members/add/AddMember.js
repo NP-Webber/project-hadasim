@@ -18,7 +18,7 @@ const AddMember = () => {
     const formSubmit = (e) => {
         e.preventDefault()
         const data = new FormData(e.target)
-        console.log(`data:${data}`);
+        // console.log(`data:${data}`);
         addOneMember(data)
     }
     return (
