@@ -3,7 +3,6 @@ const Corona = require("../models/Corona")
 
 const getAllMembers = async (req, res) => {
     const members = await Member.find().lean()
-    // console.log(members);
     if (!members.length) {
         return res.status(404).json({
             error: true,
@@ -12,12 +11,11 @@ const getAllMembers = async (req, res) => {
         })
     }
 
-    const membersWithCoronaDetails=await Promise.all(members.map(async (member)=>{
-        const coronaDetails= await Corona.findOne({member:member._id}).select(["vaccines", "positive_result","recovery"]).lean()
-        return {...member,coronaDetails}
-    }))    
-// console.log(membersWithCoronaDetails);
-    
+    const membersWithCoronaDetails = await Promise.all(members.map(async (member) => {
+        const coronaDetails = await Corona.findOne({ member: member._id }).select(["vaccines", "positive_result", "recovery"]).lean()
+        return { ...member, coronaDetails }
+    }))
+
     res.json({
         error: false,
         message: "",
@@ -28,13 +26,20 @@ const getMember = async (req, res) => {
 
 }
 const addMember = async (req, res) => {
-    const image = (req.file?(req.file.filename? req.file.filename: ""):"")
+    const image = (req.file ? (req.file.filename ? req.file.filename : "") : "")
     const { firstName, lastName, id, city, street, numB, birthDate, phone, mobile } = req.body
-    // console.log(req.file)
     if (!firstName || !lastName || !id || !birthDate) {
         return res.status(400).json({
             error: true,
             message: "Required fields",
+            data: null
+        })
+    }
+    const mem=await Member.findOne({id})
+    if(mem){
+        return res.status(300).json({
+            error: true,
+            message: "id is exist",
             data: null
         })
     }
@@ -43,7 +48,7 @@ const addMember = async (req, res) => {
         last_name: lastName
     }
     const adress = { city, street, numB }
-    const newMember = await Member.create({ name, id, adress, birthDate, phone, mobile ,image})
+    const newMember = await Member.create({ name, id, adress, birthDate, phone, mobile, image })
     if (!newMember) {
         return res.status(400).json({
             error: true,
@@ -59,7 +64,14 @@ const addMember = async (req, res) => {
 }
 const updateMember = async (req, res) => {
     const { _id, firstName, lastName, id, city, street, numB, birthDate, phone, mobile } = req.body
+    let imageUrl = null; // נוסיף משתנה זה כדי לאחסן את כתובת התמונה
+
+    // אם קיבלנו קובץ תמונה מהלקוח, נקבע את הנתיב שלו
+    if (req.file) {
+        imageUrl = req.file.filename; // נניח שהשדה הוא path, נצטרך להתאים למה שמתקבל מהלקוח
+    }
     if (!_id || !firstName || !lastName || !id || !birthDate) {
+        console.log("error")
         return res.status(400).json({
             error: true,
             message: "Required fields",
@@ -83,9 +95,12 @@ const updateMember = async (req, res) => {
     member.birthDate = birthDate
     member.phone = phone
     member.mobile = mobile
+    // אם יש כתובת תמונה, נעדכן אותה בפרופיל של החבר
+    if (imageUrl) {
+        member.image = imageUrl;
+    }
 
     const updatedMember = await member.save()
-
     res.json({
         error: false,
         message: "",
@@ -93,9 +108,7 @@ const updateMember = async (req, res) => {
     })
 }
 const deleteMember = async (req, res) => {
-    // console.log(req.body);
     const { _id } = req.body
-    // console.log(_id);
     if (!_id) {
         return res.status(400).json({
             error: true,
@@ -103,8 +116,7 @@ const deleteMember = async (req, res) => {
             data: null
         })
     }
-    const member = await Member.findById(_id,{})
-    // console.log(member);
+    const member = await Member.findById(_id, {})
     if (!member) {
         return res.status(404).json({
             error: true,

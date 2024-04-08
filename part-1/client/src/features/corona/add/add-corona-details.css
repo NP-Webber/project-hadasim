@@ -1,0 +1,39 @@
+.add-member-conteiner {
+    background-color: var(--bgSoft);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.add-member-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.add-member-form div {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    padding: 30px;
+    align-items: center;
+
+}
+
+.add-member-form input {
+    background-color: var(--bg);
+    color: var(--text);
+    border: 2px solid #2e374a;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.add-member-form button {
+    width: 100%;
+    padding: 30px;
+    background-color: teal;
+    color: var(--text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

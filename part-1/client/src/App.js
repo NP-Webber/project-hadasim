@@ -5,6 +5,7 @@ import MembersList from "./features/members/list/MembersList";
 import AddMember from "./features/members/add/AddMember";
 import SingleMember from "./features/members/view/SingleMember";
 import EditMember from "./features/members/edit/EditMember";
+import AddCoronaDetails from "./features/corona/add/AddCoronaDetails";
 function App() {
   return (
     <Router >
@@ -21,6 +22,7 @@ function App() {
           <Route path="/corona" element={<Outlet />}>
             <Route index element={<h1>CoronaDiteles</h1>} />
             {/* <Route index element={<CoronaDiteles/>}/> */}
+            <Route path=":memberId" element={<AddCoronaDetails />} />
 
           </Route>
         </Route>

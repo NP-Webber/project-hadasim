@@ -4,15 +4,20 @@ import Search from "../../../components/search/Search"
 import { useGetAllMembersQuery, useDeleteMemberMutation } from "../membersApiSlice"
 import "./members-list.css"
 import { MdOutlinePersonAddAlt } from "react-icons/md"
+import { useGotSickMutation } from "../../corona/CoronaApiSlice"
 
 const MembersList = () => {
 
     const [deleteOneMember, { isSuccess: isDeleted }] = useDeleteMemberMutation()
+    const [got_sick, { isSuccess: issick }] = useGotSickMutation()
 
     const deleteFunc = member => {
         if (window.confirm("בטוח שברצונך למחוק את החבר?")) {
             deleteOneMember({ _id: member._id })
         }
+    }
+    const gotSickFunc = member => {
+        got_sick(member._id)
     }
     const { data: membersObject, isError, isLoading, error, isSuccess } = useGetAllMembersQuery()
     if (isLoading) return <h1>Loading...</h1>
@@ -24,7 +29,7 @@ const MembersList = () => {
     //     },[isSuccess])
 
 
-    // if(isError) return <h1>{ JSON.stringify( error)}</h1>
+    if (isError) return <h1>{JSON.stringify(error)}</h1>
 
     return (
         <div className='members-list'>
@@ -66,9 +71,11 @@ const MembersList = () => {
                             <td>{member.coronaDetails?.recovery?.toString().slice(0, 10)}</td>
                             <td></td>
                             <td className="members-list-buttons">
-                            <Link to={member._id} className="members-list-button members-list-view">Details</Link>
-                            <Link to={`edit/${member._id}`} className="members-list-button members-list-edit">Edit</Link>
+                                {/* <Link to={member._id} className="members-list-button members-list-view">Details</Link> */}
+                                <Link to={`edit/${member._id}`} className="members-list-button members-list-view">Details</Link>
+                                {/* <Link to={`edit/${member._id}`} className="members-list-button members-list-edit">Edit</Link> */}
                                 <button onClick={() => deleteFunc(member)} className="members-list-button members-list-delete">Delete</button>
+                                {/* <button onClick={() => gotSickFunc(member)} className="members-list-button members-list-got-sick">Got sick</button> */}
                             </td>
                         </tr>
                     ))}

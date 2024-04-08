@@ -22,7 +22,7 @@ const SingleMember = () => {
     return (
         <div className="single-member-conteiner">
             <div className="single-member-info">
-                <div className="singlr-member-img">
+                <div className="single-member-img-container">
                     <img src={member.image ? "http://localhost:1010/images/" + member.image : "/noavatar.png"}
                         alt="" fill />
                 </div>

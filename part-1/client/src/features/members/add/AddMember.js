@@ -10,7 +10,13 @@ const AddMember = () => {
     const navigate = useNavigate()
     useEffect(() => {
         if (isSuccess) {
-            navigate("/members")
+            if (data.error === true) {
+                alert(data.message)
+            } else {
+                const { _id } = data.data
+                // navigate("/members")
+                navigate(`/corona/${_id}`)
+            }
         }
 
     }, [isSuccess])
